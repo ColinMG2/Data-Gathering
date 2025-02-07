@@ -13,7 +13,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-# Input absolute file path for the csv file extracted from DataAcquistion
+# Input absolute file path for the csv file extracted from Data Acquisition
 input_data1 = input("Path of extracted data: ")
 data0 = np.genfromtxt(input_data1, delimiter=',', names=True)
 
