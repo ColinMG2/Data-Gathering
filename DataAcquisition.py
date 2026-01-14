@@ -1,11 +1,14 @@
 import matplotlib.pyplot as plt
 import os
+import cv2 as cv
 
 def select_axes_and_calibrate(image_path):
     # Open the image
-    img = plt.imread(image_path)
+    img = cv.imread(image_path)
+    img_rgb = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+
     fig, ax = plt.subplots()
-    ax.imshow(img)
+    ax.imshow(img_rgb)
     plt.title("Click on the start and end of the x-axis")
 
     # Get x-axis points
@@ -33,37 +36,38 @@ def select_axes_and_calibrate(image_path):
     y_scale = (y_value_end - y_value_start) / (y_pixel_end - y_pixel_start)
     return (x_pixel_start, x_scale, x_value_start), (y_pixel_start, y_scale, y_value_start)
 
-def select_data_points(image_path):
-    # (x_pixel_start, x_scale, x_value_start), (y_pixel_start, y_scale, y_log_value_start) = select_axes_and_calibrate(image_path)
-    (x_pixel_start, x_scale, x_value_start), (y_pixel_start, y_scale, y_value_start) = select_axes_and_calibrate(image_path)
+def extract_line_data(image_path):
+    img = cv.imread(image_path)
+    img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
+    # Threshold the image to get binary image
+    _, binary = cv.threshold(img_gray, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)[1]
 
-    img = plt.imread(image_path)
-    fig, ax = plt.subplots()
-    ax.imshow(img)
+    # Find contours in the binary image
+    contours, _ = cv.findContours(binary, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
 
-    plt.title("Click to select data points, middle click to stop")
+    # Extract x, y coordinates of the line
+    line_points = []
+    for contour in contours:
+        for point in contour:
+            line_points.append(point[0])
 
-    # Select data points
-    points = plt.ginput(n=-1, timeout=0)
+    # Sort the points based on x-coordinate
+    line_points = sorted(line_points, key=lambda x: x[0])
 
-    # Calibrate selected points
-    x_points = [(point[0] - x_pixel_start) * x_scale + x_value_start for point in points]
-    # y_points = [10 ** ((point[1] - y_pixel_start) * y_scale + y_log_value_start) for point in points]
-    y_points = [(point[1] - y_pixel_start) * y_scale + y_value_start for point in points]
-
-
-    plt.show()
-
-    return x_points, y_points
+    return line_points
 
 # Input the absolute path of the image you want to analyze
 image_path = input("Enter the path of the image: ")
+(x_pixel_start, x_scale, x_value_start), (y_pixel_start, y_scale, y_value_start) = select_axes_and_calibrate(image_path)
+line_points = extract_line_data(image_path)
 
-x_points, y_points = select_data_points(image_path)
+# Convert pixel coordinates to actual values
+x_points = [(point[0] - x_pixel_start) * x_scale + x_value_start for point in line_points]
+y_points = [(point[1] - y_pixel_start) * y_scale + y_value_start for point in line_points]
 
-print(f"Calibrated x points:\n, {x_points}\n")
-print(f"Calibrated y points:\n, {y_points}\n")
+print(f"Extracted x points: {x_points}")
+print(f"Extracted y points: {y_points}")
 
 # generate .csv file with the same name as the image file
 image_name = os.path.basename(image_path)

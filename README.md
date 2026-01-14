@@ -1,40 +1,23 @@
-# Data-Gathering
+# Getting Started
+Ensure that you have ```git``` installed on your system. To check, type ```git --version``` in your terminal and it should output whatever version of git you have on your system. If you do not have git installed, download the proper version for your OS following the link [here](https://git-scm.com/install/).
 
-Inside of this repository, you will find these different subfolders:
-1. input data images
-2. output data csv files
-3. output data images
-Outside of these folders and within the PoResearch directory itself, there are 2 python scripts:
-1. DataAcquisition
-2. DataPlotting
+Once you have ```git``` installed, click on the **green** box that says **Code** and copy the ***https*** link. It should look like this:
+> https://github.com/ColinMG2/Data-Gathering.git
 
-Inside the "input data images" are screenshots taken from multiple different published articles. The source articles can be found with citations provided below:
-1. "CLAM steel Data.png" -> "The dislocation-based fatigue deformation mechanism of a RAFM steel under multi-axial loadings"
-   LINK: https://doi.org/10.1016/j.jnucmat.2021.153324
+Once you have this link, navigate to your desired project directory and perform the following commands:
+```
+git init
+git clone https://github.com/ColinMG2/Data-Gathering.git
+```
 
-    This data in the image is for path E (where only pure axial strain is being applied). The other paths may be interesting to investigate, but I found this to be the most useful
-    graph from the report with regards to LCF strain-controlled testing.
-   
-3. "RAFM Steel Data.png" & "RAFM Steel Data 2.png" -> "High temperature deformation and damage behavior of RAFM steels under low cyclic fatigue loading: Experiments and modeling"
-   LINK: doi:10.1016/j.fusengdes.2006.03.002
+You should then have the github repository copied as a folder named the repository name, **Data-Gathering**, and be able to open it in your code editor of choice. If you do not have Python installed on your system, you will also need to do so. Download python locally to your computer by following the link [here](https://www.python.org/downloads/) and then add the paths to where python was locally installed, both the entire folder and the scripts folder, to the **Path** environment variable.
 
-    RAFM Steel Data.png contains strain-controlled hysteresis loop data for EUROFER97 at 550C and a hold time of 3 minutes in tension (red dashed line) or compression (blue line). The plot is also
-    at the Nf/2 cycle (half the number of cycles until failure). For RAFM Steel Data 2.png, the plot shows the same conditions except that it is comparing a hold time in compression (blue) and a hold
-    time in tension-compression (green dashed).
+# How to use Data Gathering tool
+1. Upload the image of interest into the ```input_data_images``` folder. Please name the file in such a way that it is clear what type of data it is (e.g, tensile, cyclic, creep). In additon, please name the file without any spaces. Use underscores instead as a spacer between words.
 
-4. "V44 Tensile Strength Data.png" -> "Mechanical characterisation of V-4Cr-4Ti alloy: Tensile tests under high energy synchrotron diffraction"
-   LINK: https://doi.org/10.1016/j.jnucmat.2022.153911
+2. Run ```DataAcquisition.py``` by simply running in the terminal ```python DataAcquisition.py```. This will prompt you to input the data image path in the terminal. Please copy the input data image path into the terminal and press **ENTER** on your keyboard. A matplotlib window will pop up prompting you to manually click the ***start*** and ***end*** of the **x-axis** on the image. After that, it will prompt you in the terminal to manually type in the numerical value of the ***start*** of the **x-axis** and the ***end*** of the **x-axis**. It will prompt you to do the same process for the **y-axis**. Once that is complete, another window will pop up asking you to click on the data points of the graph that you want to capture (e.g. points of a line graph). Once you have clicked on all the points of the graph to get the overall trend of the data you wish to capture, simply close the matplotlib windows and the code will automatically print the **x data points** and **y data points**. It will also automatically save these **x-y data points** into a ```.csv``` file in the ```output_data_csv_files``` folder. The file will have the same name as the name you give the input data image.
 
-    The mechanical properties of V44 were investigated using a technique known as in-situ high energy X-ray diffraction (XRD) tensile testing at varying temperatures. This paper also gives the yield
-    strength and ultimate tensile strength for V44 at varying temperatures. 
+3. To ensure that the data you captured in the ```<file_name>.csv``` file is accurate and what you want, you can run ```DataPlotting.py``` to visualize it. By typing ```python DataPlotting.py``` into the terminal, the script will prompt you through the terminal to input the path of the ```<file_name>.csv``` file. After hitting **ENTER** it will show the plot you created and save it as a ```.png``` file in the ```output_data_images``` folder.
 
-DataAcquisition can be ran from the terminal using the command python <filename>.py and it will prompt you to input an image path. Copy the absolute path to avoid errors and then click enter. Then, a window 
-of the image will appear and it will prompt you to click on the image at the start of the x-axis and the end of the x-axis. Then you must manually type the value as it appears on the graph. Then it will 
-prompt you to do the same for the y-axis. Once that is complete, you can click on the pixels of the image with the data you want to extract. It is best to choose fairly sparsed out points to get the overall 
-trend of the data. Once you have extrapolated all the points you need, simply close the plot windows and the script will print which points it found and tell you that a .csv file has been saved to a certain path. 
-The code is setup in such a way that the csv file is saved with the same name as the image name. In addition, it automatically gets put into the "output data csv files" directory. From this point, the DataPlotting 
-script is needed.
-
-DataPlotting simply asks for an input csv file (copy the absolute path of whatever file you want to plot) and then hit enter. From there, it will generate a plot of the data that was extracted and stored in the csv file
-from the process described above in the DataAcquisition code. The DataPlotting script can be modified for desired axis labels, legend, title, and other parameters. Similarly, the output image is saved automatically in the 
-"output data images" directory with the same name as the csv file.
+# Contributing Data
+Inside the ```input_data_images``` are screenshots taken from multiple different published articles. The source articles can be found with citations provided in ```citations.md```. If you are contributing more data to this repository, please update the ```citations.md``` file with the paper you took the data from in **APA7** format. In addition to that, please type a brief description of what the data is you captured in your ```input_data_image.png```. Follow the templates of the previous entries in the ```citations.md``` file when making your contribution.
