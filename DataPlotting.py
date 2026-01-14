@@ -29,7 +29,7 @@ plt.legend(loc='best')
 
 # Save output image as png with same name as the input csv file in output data images directory
 output_name = os.path.splitext(os.path.basename(input_data1))[0]
-output_dir_name = "output data images"
+output_dir_name = "output_data_images"
 output_path = os.path.join(output_dir_name, f'{output_name}.png')
 plt.savefig(output_path)
 print(f'File saved to: {output_path}')

@@ -68,7 +68,7 @@ print(f"Calibrated y points:\n, {y_points}\n")
 # generate .csv file with the same name as the image file
 image_name = os.path.basename(image_path)
 csv_filename = os.path.splitext(image_name)[0] + ".csv"
-output_dir_name = "output data csv files"
+output_dir_name = "output_data_csv_files"
 output_csv_path = os.path.join(output_dir_name, csv_filename)
 
 with open(output_csv_path, "w") as f:
