@@ -24,7 +24,7 @@ plt.xlabel("Strain [%]")
 plt.ylabel("Stress [MPa]")
 plt.title("Graph Title")
 plt.grid(True)
-plt.plot(data0['x'], data0['y'], color='r', label='550C')
+plt.plot(data0['x'], data0['y'], color='r')
 plt.legend(loc='best')
 
 # Save output image as png with same name as the input csv file in output data images directory
