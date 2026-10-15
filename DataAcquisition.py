@@ -10,7 +10,7 @@ def select_axes_and_calibrate(image_path):
     plt.title("Click on the start and end of the x-axis")
 
     # Get x-axis points
-    x_axis_points = plt.ginput(2)
+    x_axis_points = plt.ginput(2, timeout=0)
     x_pixel_start, x_pixel_end = x_axis_points[0][0], x_axis_points[1][0]
 
     plt.title("Enter the start and end values of the x-axis")
@@ -18,9 +18,11 @@ def select_axes_and_calibrate(image_path):
     x_value_end = float(input("Enter the end value of the x-axis: "))
 
     plt.title("Click on the start and end of the y-axis")
+    plt.draw()
+    plt.pause(0.1)
 
     # Get y-axis points
-    y_axis_points = plt.ginput(2)
+    y_axis_points = plt.ginput(2, timeout=0)
     y_pixel_start, y_pixel_end = y_axis_points[0][1], y_axis_points[1][1]
 
     plt.title("Enter the start and end values of the y-axis (log scale)")
